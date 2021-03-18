@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterMovement : MonoBehaviour
+public class LevelManagerScript : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
