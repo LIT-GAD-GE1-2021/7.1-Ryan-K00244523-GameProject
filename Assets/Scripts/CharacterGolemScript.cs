@@ -80,7 +80,7 @@ public class CharacterGolemScript : MonoBehaviour
             wolfRigidbody.velocity += Vector2.up * Physics2D.gravity.y * lowJumpMultiplier * Time.deltaTime;
         }
 
-        if (change)
+        if (change && grounded)
         {
             GameObject changeToWolf;
             changeToWolf = Instantiate( WolfCharacter, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);

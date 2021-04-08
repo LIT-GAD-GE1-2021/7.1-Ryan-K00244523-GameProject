@@ -19,6 +19,7 @@ public class CharacterWolfScript : MonoBehaviour
     private float hAxis;
     private bool facingRight;
     public GameObject GolemCharacter;
+    public GameObject BirdCharacter;
 
     private bool jump;
     private bool change;
@@ -80,10 +81,16 @@ public class CharacterWolfScript : MonoBehaviour
             wolfRigidbody.velocity += Vector2.up * Physics2D.gravity.y * lowJumpMultiplier * Time.deltaTime;
         }
 
-        if (change)
+        if (change && grounded)
         {
             GameObject changeToGolem;
             changeToGolem = Instantiate(GolemCharacter, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
+            Destroy(this.gameObject);
+        }
+        else if (change && !grounded)
+        {
+            GameObject changeToBird;
+            changeToBird = Instantiate(BirdCharacter, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
             Destroy(this.gameObject);
         }
     }
