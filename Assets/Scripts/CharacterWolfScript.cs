@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterGolemScript : MonoBehaviour
+public class CharacterWolfScript : MonoBehaviour
 {
     public float jumpSpeed;
     public float fallMultiplier;
@@ -18,7 +18,7 @@ public class CharacterGolemScript : MonoBehaviour
     private bool headTouch;
     private float hAxis;
     private bool facingRight;
-    public GameObject WolfCharacter;
+    public GameObject GolemCharacter;
 
     private bool jump;
     private bool change;
@@ -82,8 +82,8 @@ public class CharacterGolemScript : MonoBehaviour
 
         if (change)
         {
-            GameObject changeToWolf;
-            changeToWolf = Instantiate( WolfCharacter, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
+            GameObject changeToGolem;
+            changeToGolem = Instantiate(GolemCharacter, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
             Destroy(this.gameObject);
         }
     }
