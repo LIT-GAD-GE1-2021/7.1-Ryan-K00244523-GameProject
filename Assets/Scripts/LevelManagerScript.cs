@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelManagerScript : MonoBehaviour
 {
+    public static bool facingRightMainBool = true;
     // Start is called before the first frame update
     void Start()
     {

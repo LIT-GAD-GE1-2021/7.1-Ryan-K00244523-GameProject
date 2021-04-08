@@ -21,18 +21,30 @@ public class CharacterGolemScript : MonoBehaviour
     public GameObject WolfCharacter;
 
     private bool jump;
-    private bool change;
+    private bool changeToWolf;
 
     private Rigidbody2D wolfRigidbody;
 
-
-
+    void Awake()
+    {
+        if (LevelManagerScript.facingRightMainBool == true)
+        {
+            Vector3 golemScale = transform.localScale;
+            golemScale.x = 1;
+            transform.localScale = golemScale;
+        }
+        else
+        {
+            Vector3 golemScale = transform.localScale;
+            golemScale.x = -1;
+            transform.localScale = golemScale;
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
         jump = false;
         grounded = false;
-        facingRight = true;
 
         wolfRigidbody = GetComponent<Rigidbody2D>();
     }
@@ -40,8 +52,8 @@ public class CharacterGolemScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        jump = Input.GetKeyDown(KeyCode.Space);
-        change = Input.GetKeyDown(KeyCode.Z);
+        jump = Input.GetKeyDown(KeyCode.X);
+        changeToWolf = Input.GetKey(KeyCode.LeftShift);
         hAxis = Input.GetAxis("Horizontal");
 
         Collider2D colliderWeCollidedWith = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
@@ -50,18 +62,16 @@ public class CharacterGolemScript : MonoBehaviour
 
         float yVelocity = wolfRigidbody.velocity.y;
 
-        if (grounded)
-        {
-            if ((hAxis > 0) && (facingRight == false))
+
+            if ((hAxis > 0) && (LevelManagerScript.facingRightMainBool == false))
             {
                 Flip();
             }
-            else if ((hAxis < 0) && (facingRight == true))
+            else if ((hAxis < 0) && (LevelManagerScript.facingRightMainBool == true))
             {
                 Flip();
             }
 
-        }
         if (grounded && !jump)
         {
             wolfRigidbody.velocity = new Vector2(horizontalSpeed * hAxis, wolfRigidbody.velocity.y);
@@ -80,11 +90,9 @@ public class CharacterGolemScript : MonoBehaviour
             wolfRigidbody.velocity += Vector2.up * Physics2D.gravity.y * lowJumpMultiplier * Time.deltaTime;
         }
 
-        if (change && grounded)
+        if (changeToWolf && grounded)
         {
-            GameObject changeToWolf;
-            changeToWolf = Instantiate( WolfCharacter, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
-            Destroy(this.gameObject);
+            ChangeToWolf();
         }
     }
 
@@ -97,10 +105,17 @@ public class CharacterGolemScript : MonoBehaviour
 
     private void Flip()
     {
-        facingRight = !facingRight;
-        Vector3 wolfScale = transform.localScale;
-        wolfScale.x *= -1;
-        transform.localScale = wolfScale;
+        LevelManagerScript.facingRightMainBool = !LevelManagerScript.facingRightMainBool;
+        Vector3 golemScale = transform.localScale;
+        golemScale.x *= -1;
+        transform.localScale = golemScale;
+    }
+
+    private void ChangeToWolf()
+    {
+        GameObject changeToWolf;
+        changeToWolf = Instantiate(WolfCharacter, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
+        Destroy(this.gameObject);
     }
 
 }

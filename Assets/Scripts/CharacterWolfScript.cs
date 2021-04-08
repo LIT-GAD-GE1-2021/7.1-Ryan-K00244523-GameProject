@@ -22,18 +22,33 @@ public class CharacterWolfScript : MonoBehaviour
     public GameObject BirdCharacter;
 
     private bool jump;
-    private bool change;
+    private bool changeToGolem;
+    private bool changeBird;
+    private bool waitingChangeToGolem;
 
     private Rigidbody2D wolfRigidbody;
 
-
-
+    void Awake()
+    {
+        if (LevelManagerScript.facingRightMainBool == true)
+        {
+            Vector3 wolfScale = transform.localScale;
+            wolfScale.x = 1;
+            transform.localScale = wolfScale;
+        }
+        else
+        {
+            Vector3 wolfScale = transform.localScale;
+            wolfScale.x = -1;
+            transform.localScale = wolfScale;
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
         jump = false;
         grounded = false;
-        facingRight = true;
+        waitingChangeToGolem = false;
 
         wolfRigidbody = GetComponent<Rigidbody2D>();
     }
@@ -41,8 +56,9 @@ public class CharacterWolfScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        jump = Input.GetKeyDown(KeyCode.Space);
-        change = Input.GetKeyDown(KeyCode.Z);
+        jump = Input.GetKeyDown(KeyCode.X);
+        changeToGolem = Input.GetKeyUp(KeyCode.LeftShift);
+        changeBird = Input.GetKeyUp(KeyCode.LeftShift);
         hAxis = Input.GetAxis("Horizontal");
 
         Collider2D colliderWeCollidedWith = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
@@ -51,19 +67,16 @@ public class CharacterWolfScript : MonoBehaviour
 
         float yVelocity = wolfRigidbody.velocity.y;
 
-        if (grounded)
-        {
-            if ((hAxis > 0) && (facingRight == false))
+            if ((hAxis > 0) && (LevelManagerScript.facingRightMainBool == false))
             {
                 Flip();
             }
-            else if ((hAxis < 0) && (facingRight == true))
+            else if ((hAxis < 0) && (LevelManagerScript.facingRightMainBool == true))
             {
                 Flip();
             }
 
-        }
-        if (grounded && !jump)
+        if (!jump)
         {
             wolfRigidbody.velocity = new Vector2(horizontalSpeed * hAxis, wolfRigidbody.velocity.y);
         }
@@ -80,18 +93,21 @@ public class CharacterWolfScript : MonoBehaviour
         {
             wolfRigidbody.velocity += Vector2.up * Physics2D.gravity.y * lowJumpMultiplier * Time.deltaTime;
         }
-
-        if (change && grounded)
+        if (changeToGolem & !grounded)
         {
-            GameObject changeToGolem;
-            changeToGolem = Instantiate(GolemCharacter, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
-            Destroy(this.gameObject);
+            waitingChangeToGolem = true;
         }
-        else if (change && !grounded)
+        if (changeToGolem && grounded)
         {
-            GameObject changeToBird;
-            changeToBird = Instantiate(BirdCharacter, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
-            Destroy(this.gameObject);
+            ChangeToGolem();
+        }
+        else if (jump && !grounded)
+        {
+            ChangeToBird();
+        }
+        else if ( waitingChangeToGolem == true && grounded)
+        {
+            ChangeToGolem();
         }
     }
 
@@ -104,10 +120,24 @@ public class CharacterWolfScript : MonoBehaviour
 
     private void Flip()
     {
-        facingRight = !facingRight;
+        LevelManagerScript.facingRightMainBool = !LevelManagerScript.facingRightMainBool;
         Vector3 wolfScale = transform.localScale;
         wolfScale.x *= -1;
         transform.localScale = wolfScale;
     }
 
+    private void ChangeToGolem()
+    {
+        GameObject changeToGolem;
+        changeToGolem = Instantiate(GolemCharacter, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
+        Destroy(this.gameObject);
+    }    
+
+    private void ChangeToBird()
+    {
+        GameObject changeToBird;
+        changeToBird = Instantiate(BirdCharacter, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
+        Destroy(this.gameObject);
+    }
+ 
 }
