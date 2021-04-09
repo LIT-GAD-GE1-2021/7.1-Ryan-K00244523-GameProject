@@ -82,6 +82,7 @@ public class CharacterWolfScript : MonoBehaviour
         }
         else if (grounded && jump)
         {
+          
             wolfRigidbody.velocity = new Vector2(wolfRigidbody.velocity.x, jumpSpeed);
         }
 

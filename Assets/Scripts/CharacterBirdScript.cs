@@ -114,6 +114,7 @@ public class CharacterBirdScript : MonoBehaviour
 
         jump = Input.GetKeyDown(KeyCode.X);
         hAxis = Input.GetAxis("Horizontal");
+        
     }
 
 
@@ -134,7 +135,7 @@ public class CharacterBirdScript : MonoBehaviour
     private void ChangeToWolf()
     {
         GameObject changeToWolf;
-        changeToWolf = Instantiate(GolemCharacter, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
+        changeToWolf = Instantiate(WolfCharacter, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
         Destroy(this.gameObject);
     }
 

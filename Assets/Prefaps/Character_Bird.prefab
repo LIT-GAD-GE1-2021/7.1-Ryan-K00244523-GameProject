@@ -174,7 +174,7 @@ MonoBehaviour:
     m_Bits: 256
   groundCheck: {fileID: 3654689689745037627}
   headCheck: {fileID: 0}
-  GolemCharacter: {fileID: 1069946019513538640, guid: 69fa69a1811de574bb796cfbb9db540b,
+  GolemCharacter: {fileID: 878642429557269251, guid: c87d3b0fe44229b46b69b8c3dad40bdb,
     type: 3}
   WolfCharacter: {fileID: 1549463530277899437, guid: 042f6cdfc7089ff419dc5d2153442d09,
     type: 3}

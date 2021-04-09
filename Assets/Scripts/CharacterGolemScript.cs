@@ -30,13 +30,13 @@ public class CharacterGolemScript : MonoBehaviour
         if (LevelManagerScript.facingRightMainBool == true)
         {
             Vector3 golemScale = transform.localScale;
-            golemScale.x = 1;
+            golemScale.x = golemScale.x * golemScale.x / golemScale.x;
             transform.localScale = golemScale;
         }
         else
         {
             Vector3 golemScale = transform.localScale;
-            golemScale.x = -1;
+            golemScale.x = -golemScale.x;
             transform.localScale = golemScale;
         }
     }
