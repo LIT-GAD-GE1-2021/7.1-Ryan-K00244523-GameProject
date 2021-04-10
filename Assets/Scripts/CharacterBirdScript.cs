@@ -35,13 +35,13 @@ public class CharacterBirdScript : MonoBehaviour
         if (LevelManagerScript.facingRightMainBool == true)
         {
             Vector3 birdScale = transform.localScale;
-            birdScale.x = 1;
+            birdScale.x = birdScale.x * birdScale.x / birdScale.x;
             transform.localScale = birdScale;
         }
         else
         {
             Vector3 birdScale = transform.localScale;
-            birdScale.x = -1;
+            birdScale.x = -birdScale.x;
             transform.localScale = birdScale;
         }
     }

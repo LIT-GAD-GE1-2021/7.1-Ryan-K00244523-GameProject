@@ -33,13 +33,13 @@ public class CharacterWolfScript : MonoBehaviour
         if (LevelManagerScript.facingRightMainBool == true)
         {
             Vector3 wolfScale = transform.localScale;
-            wolfScale.x = 1;
+            wolfScale.x = wolfScale.x * wolfScale.x / wolfScale.x;
             transform.localScale = wolfScale;
         }
         else
         {
             Vector3 wolfScale = transform.localScale;
-            wolfScale.x = -1;
+            wolfScale.x = -wolfScale.x;
             transform.localScale = wolfScale;
         }
     }
