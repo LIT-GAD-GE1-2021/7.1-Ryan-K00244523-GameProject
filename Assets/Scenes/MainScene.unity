@@ -406,7 +406,7 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_Follow: {fileID: 1440206293}
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5
@@ -430,7 +430,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 553430860}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.2, y: -0.84, z: -10}
+  m_LocalPosition: {x: -0.81, y: -1.07, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1383599117}
@@ -1711,6 +1711,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1440206293 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 878642429557269254, guid: c87d3b0fe44229b46b69b8c3dad40bdb,
+    type: 3}
+  m_PrefabInstance: {fileID: 2122220874}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1824582615
 GameObject:
   m_ObjectHideFlags: 0
@@ -1740,6 +1746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee5012ba270853844961deddfb31325d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  virtualCamera: {fileID: 553430861}
 --- !u!4 &1824582617
 Transform:
   m_ObjectHideFlags: 0
@@ -1833,7 +1840,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1946017883}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.2, y: -0.84, z: -10}
+  m_LocalPosition: {x: -0.81, y: -1.07, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
