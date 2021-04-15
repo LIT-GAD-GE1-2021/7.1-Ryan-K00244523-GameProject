@@ -43,10 +43,15 @@ public class CharacterGolemScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // JH - Get the Cinemachine Virtual Camera to follow the
+        // transform of this game object
+        LevelManagerScript.instance.setVCamFollow(transform);
+
         jump = false;
         grounded = false;
 
         wolfRigidbody = GetComponent<Rigidbody2D>();
+
     }
 
     // Update is called once per frame

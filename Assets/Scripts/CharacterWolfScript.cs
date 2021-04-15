@@ -46,6 +46,10 @@ public class CharacterWolfScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // JH - Get the Cinemachine Virtual Camera to follow the
+        // transform of this game object
+        LevelManagerScript.instance.setVCamFollow(transform);
+
         jump = false;
         grounded = false;
         waitingChangeToGolem = false;

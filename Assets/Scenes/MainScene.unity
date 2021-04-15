@@ -406,7 +406,11 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
+<<<<<<< HEAD
   m_Follow: {fileID: 1472085669}
+=======
+  m_Follow: {fileID: 1440206293}
+>>>>>>> a4412e787f0b15a0b6c4605e87bb3532ed1eaced
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5
@@ -1711,7 +1715,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
 --- !u!4 &1472085669 stripped
+=======
+--- !u!4 &1440206293 stripped
+>>>>>>> a4412e787f0b15a0b6c4605e87bb3532ed1eaced
 Transform:
   m_CorrespondingSourceObject: {fileID: 878642429557269254, guid: c87d3b0fe44229b46b69b8c3dad40bdb,
     type: 3}
@@ -1746,6 +1754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee5012ba270853844961deddfb31325d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  virtualCamera: {fileID: 553430861}
 --- !u!4 &1824582617
 Transform:
   m_ObjectHideFlags: 0
