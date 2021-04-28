@@ -418,9 +418,9 @@ GameObject:
   - component: {fileID: 878642429557269253}
   - component: {fileID: 3087701922250018231}
   - component: {fileID: 8943148135117078055}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Character_Golem_Ctrl
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -689,7 +689,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5115190730000092060}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.91, y: 1.83, z: 0}
+  m_LocalPosition: {x: -1.68, y: 0.64, z: 0}
   m_LocalScale: {x: 4.416396, y: 4.416396, z: 4.416396}
   m_Children: []
   m_Father: {fileID: 878642429557269254}
