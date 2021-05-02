@@ -28,9 +28,11 @@ public class CharacterBirdScript : MonoBehaviour
     private bool changeToWolf;
 
     private Rigidbody2D birdRigidbody;
+    private Animator birdAnimator;
 
     void Awake()
     {
+
         jumpingMaximum = jumpingMaximum - 1;
         if (LevelManagerScript.facingRightMainBool == true)
         {
@@ -54,15 +56,20 @@ public class CharacterBirdScript : MonoBehaviour
 
         jump = true;
         grounded = false;
+        LevelManagerScript.instance.currentCharacter = "Bird";
     
 
         birdRigidbody = GetComponent<Rigidbody2D>();
+        birdAnimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (LevelManagerScript.instance.characterCurrentHp <= 0)
+        {
+            CharacterDead();
+        }
         changeToWolf = Input.GetKey(KeyCode.LeftShift);
 
         Collider2D colliderWeCollidedWith = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
@@ -86,6 +93,8 @@ public class CharacterBirdScript : MonoBehaviour
         }
         else if (jump &&( jumpingCount <= jumpingMaximum))
         {
+            birdAnimator.SetTrigger("FlapWing");
+            FindObjectOfType<LevelManagerScript>().PlayAudio("BirdFlap");
             birdRigidbody.velocity = new Vector2(birdRigidbody.velocity.x, jumpSpeed);
             jumpingCount += 1;
         }
@@ -126,6 +135,21 @@ public class CharacterBirdScript : MonoBehaviour
 
 
     }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "EnemyA" || collision.collider.tag == "Spike")
+        {
+            TakeDamage(1);
+        }
+    }
+
+    void TakeDamage(int damage)
+    {
+        FindObjectOfType<LevelManagerScript>().PlayAudio("CharacterHurt");
+        birdAnimator.SetTrigger("TakeDamage");
+        LevelManagerScript.instance.EnemyHitPlayer(damage);
+        
+    }
 
     private void Flip()
     {
@@ -149,4 +173,16 @@ public class CharacterBirdScript : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    public void CharacterDead()
+    {
+
+        Debug.Log("characterdead");
+        LevelManagerScript.instance.setVCamFollow(null);
+        birdAnimator.SetTrigger("Dead");
+        LevelManagerScript.instance.GameOver();
+        GetComponent<CapsuleCollider2D>().enabled = false;
+        GetComponent<Rigidbody2D>().gravityScale = 0;
+        GetComponent<CharacterBirdScript>().enabled = false;
+        this.enabled = false;
+    }
 }

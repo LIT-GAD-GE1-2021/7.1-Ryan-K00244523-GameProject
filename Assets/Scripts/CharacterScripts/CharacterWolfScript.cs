@@ -12,6 +12,10 @@ public class CharacterWolfScript : MonoBehaviour
     public LayerMask whatIsGround;
     public Transform groundCheck;
     public Transform headCheck;
+    public Transform attackPoint;
+    public float attackRange = 0.5f;
+    public LayerMask whatIsEnemy;
+
     private float groundRadius = 0.5f;
     private float headRadius;
     private bool grounded;
@@ -25,8 +29,10 @@ public class CharacterWolfScript : MonoBehaviour
     private bool changeToGolem;
     private bool changeBird;
     private bool waitingChangeToGolem;
+    private bool isMoving;
 
     private Rigidbody2D wolfRigidbody;
+    public Animator wolfAnimator;
 
     void Awake()
     {
@@ -49,21 +55,26 @@ public class CharacterWolfScript : MonoBehaviour
         // JH - Get the Cinemachine Virtual Camera to follow the
         // transform of this game object
         LevelManagerScript.instance.setVCamFollow(transform);
-
+        isMoving = false;
         jump = false;
         grounded = false;
         waitingChangeToGolem = false;
 
-        wolfRigidbody = GetComponent<Rigidbody2D>();
-    }
+        LevelManagerScript.instance.currentCharacter = "Wolf";
 
+        wolfRigidbody = GetComponent<Rigidbody2D>();
+        wolfAnimator = GetComponent<Animator>();
+    }
+ 
     // Update is called once per frame
     void Update()
     {
         jump = Input.GetKeyDown(KeyCode.X);
-        changeToGolem = Input.GetKeyUp(KeyCode.LeftShift);
+        changeToGolem = Input.GetKey(KeyCode.LeftShift);
         changeBird = Input.GetKeyUp(KeyCode.LeftShift);
         hAxis = Input.GetAxis("Horizontal");
+        wolfAnimator.SetFloat("walkSpeed" , hAxis * hAxis);
+
 
         Collider2D colliderWeCollidedWith = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
 
@@ -86,8 +97,13 @@ public class CharacterWolfScript : MonoBehaviour
         }
         else if (grounded && jump)
         {
+            wolfAnimator.SetBool("Jump", true);
           
             wolfRigidbody.velocity = new Vector2(wolfRigidbody.velocity.x, jumpSpeed);
+        }
+        else if (grounded && !jump)
+        {
+            wolfAnimator.SetBool("Jump", false);
         }
 
         if (wolfRigidbody.velocity.y < 0)
@@ -102,7 +118,7 @@ public class CharacterWolfScript : MonoBehaviour
         {
             waitingChangeToGolem = true;
         }
-        if (changeToGolem && grounded)
+        if (!changeToGolem && grounded)
         {
             ChangeToGolem();
         }
@@ -113,6 +129,10 @@ public class CharacterWolfScript : MonoBehaviour
         else if ( waitingChangeToGolem == true && grounded)
         {
             ChangeToGolem();
+        }
+        else if(Input.GetKeyDown(KeyCode.Z)==true)
+        {
+            Attack();
         }
     }
 
@@ -144,5 +164,57 @@ public class CharacterWolfScript : MonoBehaviour
         changeToBird = Instantiate(BirdCharacter, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
         Destroy(this.gameObject);
     }
- 
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "EnemyA" || collision.collider.tag == "Spike")
+        {
+            if (LevelManagerScript.instance.characterCurrentHp > 1)
+            {
+                TakeDamage(1);
+            }
+            else
+            {
+                CharacterDead();
+            }
+        }
+    }
+    void Attack()
+    {
+        FindObjectOfType<LevelManagerScript>().PlayAudio("WolfAttack");
+        wolfAnimator.SetTrigger("Attack");
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, whatIsEnemy);
+
+        foreach( Collider2D enemy in hitEnemies)
+        {
+            enemy.GetComponent<EnemyAScript>().TakeDamage(1);
+        }
+    }
+    void TakeDamage( int damage )
+    {
+        FindObjectOfType<LevelManagerScript>().PlayAudio("CharacterHurt");
+        LevelManagerScript.instance.EnemyHitPlayer(damage);
+        wolfAnimator.SetTrigger("TakeDamage");
+    }
+
+    
+    void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null)
+            return;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
+
+    public void CharacterDead()
+    {
+       
+        Debug.Log("characterdead");
+        wolfAnimator.SetTrigger("Dead");
+        LevelManagerScript.instance.GameOver();
+        GetComponent<CapsuleCollider2D>().enabled = false;
+        GetComponent<Rigidbody2D>().simulated = false;
+        GetComponent<CharacterWolfScript>().enabled = false;
+        this.enabled = false;
+    }
+
+
 }

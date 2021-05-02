@@ -17,16 +17,20 @@ public class CharacterGolemScript : MonoBehaviour
     private bool grounded;
     private bool headTouch;
     private float hAxis;
-    private bool facingRight;
     public GameObject WolfCharacter;
 
     private bool jump;
     private bool changeToWolf;
 
-    private Rigidbody2D wolfRigidbody;
+    private Rigidbody2D golemRigidbody;
+    private Animator golemAnimator;
 
     void Awake()
     {
+        if (Input.GetKey(KeyCode.LeftShift) == true)
+        {
+            ChangeToWolf();
+        }
         if (LevelManagerScript.facingRightMainBool == true)
         {
             Vector3 golemScale = transform.localScale;
@@ -46,11 +50,13 @@ public class CharacterGolemScript : MonoBehaviour
         // JH - Get the Cinemachine Virtual Camera to follow the
         // transform of this game object
         LevelManagerScript.instance.setVCamFollow(transform);
-
         jump = false;
         grounded = false;
 
-        wolfRigidbody = GetComponent<Rigidbody2D>();
+        LevelManagerScript.instance.currentCharacter = "Golem";
+
+        golemRigidbody = GetComponent<Rigidbody2D>();
+        golemAnimator = GetComponent<Animator>();
 
     }
 
@@ -65,11 +71,13 @@ public class CharacterGolemScript : MonoBehaviour
 
         grounded = (bool)colliderWeCollidedWith;
 
-        float yVelocity = wolfRigidbody.velocity.y;
+        float yVelocity = golemRigidbody.velocity.y;
 
 
-            if ((hAxis > 0) && (LevelManagerScript.facingRightMainBool == false))
+
+        if ((hAxis > 0) && (LevelManagerScript.facingRightMainBool == false))
             {
+          
                 Flip();
             }
             else if ((hAxis < 0) && (LevelManagerScript.facingRightMainBool == true))
@@ -79,24 +87,25 @@ public class CharacterGolemScript : MonoBehaviour
 
         if (grounded && !jump)
         {
-            wolfRigidbody.velocity = new Vector2(horizontalSpeed * hAxis, wolfRigidbody.velocity.y);
+            golemRigidbody.velocity = new Vector2(horizontalSpeed * hAxis, golemRigidbody.velocity.y);
         }
         else if (grounded && jump)
         {
-            wolfRigidbody.velocity = new Vector2(wolfRigidbody.velocity.x, jumpSpeed);
+            golemRigidbody.velocity = new Vector2(golemRigidbody.velocity.x, jumpSpeed);
         }
 
-        if (wolfRigidbody.velocity.y < 0)
+        if (golemRigidbody.velocity.y < 0)
         {
-            wolfRigidbody.velocity += Vector2.up * Physics2D.gravity.y * fallMultiplier * Time.deltaTime;
+            golemRigidbody.velocity += Vector2.up * Physics2D.gravity.y * fallMultiplier * Time.deltaTime;
         }
-        else if ((wolfRigidbody.velocity.y > 0) && (!Input.GetKey(KeyCode.Space)))
+        else if ((golemRigidbody.velocity.y > 0) && (!Input.GetKey(KeyCode.Space)))
         {
-            wolfRigidbody.velocity += Vector2.up * Physics2D.gravity.y * lowJumpMultiplier * Time.deltaTime;
+            golemRigidbody.velocity += Vector2.up * Physics2D.gravity.y * lowJumpMultiplier * Time.deltaTime;
         }
 
         if (changeToWolf && grounded)
         {
+            //StartCoroutine("waitForSecond");
             ChangeToWolf();
         }
     }
@@ -106,6 +115,14 @@ public class CharacterGolemScript : MonoBehaviour
     {
 
 
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "EnemyA" || collision.collider.tag == "Spike")
+        {
+            FindObjectOfType<LevelManagerScript>().PlayAudio("HitGolem");
+        }
     }
 
     private void Flip()
@@ -118,9 +135,23 @@ public class CharacterGolemScript : MonoBehaviour
 
     private void ChangeToWolf()
     {
+        
         GameObject changeToWolf;
         changeToWolf = Instantiate(WolfCharacter, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
         Destroy(this.gameObject);
+    }
+
+    public void HitByEnemy()
+    {
+        Debug.Log("HitPlayer");
+        
+    }
+
+    IEnumerator waitForSecond()
+    {
+        GetComponent<Rigidbody2D>().gravityScale = 0;
+        yield return new WaitForSeconds(0.5f);
+        ChangeToWolf();
     }
 
 }

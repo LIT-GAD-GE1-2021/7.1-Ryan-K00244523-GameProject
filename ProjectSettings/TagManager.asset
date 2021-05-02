@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+<<<<<<< Updated upstream
+=======
+  - EnemyA
+  - Spike
+>>>>>>> Stashed changes
   layers:
   - Default
   - TransparentFX
@@ -16,7 +21,7 @@ TagManager:
   - 
   - Ground
   - Player
-  - 
+  - Enemies
   - 
   - 
   - 
