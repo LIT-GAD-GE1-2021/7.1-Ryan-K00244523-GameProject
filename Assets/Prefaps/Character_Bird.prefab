@@ -43,9 +43,10 @@ GameObject:
   - component: {fileID: 4151721430138924998}
   - component: {fileID: 3779714925676357693}
   - component: {fileID: 3413780729375229385}
-  m_Layer: 0
+  - component: {fileID: 719262025016927795}
+  m_Layer: 9
   m_Name: Character_Bird
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,8 +104,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4b180c124eae5824f9c5a145e66c692f, type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: dac54b38590ada54e8edba4b6a03fa56, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -129,7 +130,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 2.98, y: 1.79}
+  m_Size: {x: 0.0001, y: 1.79}
   m_Direction: 1
 --- !u!50 &3779714925676357693
 Rigidbody2D:
@@ -164,11 +165,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9fad4ef58612854385e788f9834b49c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpSpeed: 4.5
+  jumpSpeed: 5.5
   fallMultiplier: 0.1
   lowJumpMultiplier: 0
   horizontalSpeed: 7
-  jumpingMaximum: 4
+  jumpingMaximum: 7
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
@@ -178,3 +179,22 @@ MonoBehaviour:
     type: 3}
   WolfCharacter: {fileID: 1549463530277899437, guid: 042f6cdfc7089ff419dc5d2153442d09,
     type: 3}
+--- !u!95 &719262025016927795
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9181629714702195498}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c0e0f33d3be06b746ba214be92687453, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
